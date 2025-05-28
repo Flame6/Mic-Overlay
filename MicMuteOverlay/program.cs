@@ -30,6 +30,9 @@ namespace MicMuteOverlay
                 overlay.UpdateStatus(controller.IsMuted);
             };
 
+            // Set initial overlay visibility based on display mode and current mute state
+            overlay.UpdateStatus(controller.IsMuted);
+
             // Hide the overlay from taskbar since we now have a tray icon
             overlay.WindowState = FormWindowState.Normal;
             overlay.ShowInTaskbar = false;
@@ -37,7 +40,7 @@ namespace MicMuteOverlay
             Application.Run(overlay);
 
             config.Save();
-            Hotkeys.Dispose();
+            Hotkeys?.Dispose();
         }
     }
 }

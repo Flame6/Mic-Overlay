@@ -1,29 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <UseWindowsForms>true</UseWindowsForms>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<UseWindowsForms>true</UseWindowsForms>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="icon.ico" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="icon.ico" />
+		<None Remove="Sounds\mute.wav" />
+		<None Remove="Sounds\unmute.wav" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="icon.ico" />
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="icon.ico" />
+		<EmbeddedResource Include="Sounds\mute.wav" />
+		<EmbeddedResource Include="Sounds\unmute.wav" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="NAudio" Version="2.1.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="NAudio" Version="2.1.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="..\config.json" CopyToOutputDirectory="PreserveNewest" />
-    <None Update="config.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="..\Sounds\**\*" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="..\config.json" CopyToOutputDirectory="PreserveNewest" />
+		<None Update="config.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>
