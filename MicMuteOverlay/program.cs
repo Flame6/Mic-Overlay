@@ -20,11 +20,11 @@ namespace MicMuteOverlay
 
             var overlay = new OverlayForm(controller, config);
 
-            Hotkeys.HotkeyPressed += (s, e) =>
-            {
-                controller.ToggleMute();
-                overlay.UpdateStatus(controller.IsMuted);
-            };
+Hotkeys.HotkeyPressed += (s, e) =>
+{
+    controller.ToggleMute();
+    overlay.UpdateStatus(controller.IsMuted);
+};
 
             Application.Run(overlay);
             config.Save();

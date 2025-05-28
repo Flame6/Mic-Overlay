@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
+using MicMuteOverlay;
 
 namespace MicMuteOverlay.Forms
 {
@@ -13,21 +14,34 @@ namespace MicMuteOverlay.Forms
         private readonly SoundPlayer _mutePlayer;
         private readonly SoundPlayer _unmutePlayer;
 
+        private bool _dragging;
+        private Point _dragStart;
+
         public OverlayForm(MicController controller, Config config)
         {
             _controller = controller;
             _config = config;
+
             _label = new Label
             {
                 AutoSize = true,
-                BackColor = Color.Transparent
+                BackColor = Color.Transparent,
+                ForeColor = Color.White,
+                Font = new Font("Segoe UI", _config.FontSize, FontStyle.Bold),
+                Cursor = Cursors.SizeAll
             };
             Controls.Add(_label);
+
+            // Enable dragging via label only
+            _label.MouseDown += OverlayForm_MouseDown;
+            _label.MouseMove += OverlayForm_MouseMove;
+            _label.MouseUp += OverlayForm_MouseUp;
 
             var menu = new ContextMenuStrip();
             var settingsItem = new ToolStripMenuItem("Settings");
             settingsItem.Click += (s, e) => new SettingsForm(_config, Program.Hotkeys!, this).Show();
             menu.Items.Add(settingsItem);
+
             var exitItem = new ToolStripMenuItem("Exit");
             exitItem.Click += (s, e) => Close();
             menu.Items.Add(exitItem);
@@ -42,6 +56,7 @@ namespace MicMuteOverlay.Forms
             BackColor = Color.Magenta;
             TransparencyKey = Color.Magenta;
             StartPosition = FormStartPosition.CenterScreen;
+
             ApplyAppearance();
             UpdateStatus(_controller.IsMuted);
             ResizeToFit();
@@ -50,7 +65,16 @@ namespace MicMuteOverlay.Forms
         public void UpdateStatus(bool muted)
         {
             _label.Text = muted ? _config.OverlayText : string.Empty;
-            if (muted) _mutePlayer.Play(); else _unmutePlayer.Play();
+
+            if (muted)
+            {
+                _mutePlayer.Play();
+            }
+            else
+            {
+                _unmutePlayer.Play();
+            }
+
             ResizeToFit();
             Invalidate();
         }
@@ -73,6 +97,25 @@ namespace MicMuteOverlay.Forms
         {
             Width = _label.Width + 20;
             Height = _label.Height + 20;
+        }
+
+        private void OverlayForm_MouseDown(object? sender, MouseEventArgs e)
+        {
+            _dragging = true;
+            _dragStart = e.Location;
+        }
+
+        private void OverlayForm_MouseMove(object? sender, MouseEventArgs e)
+        {
+            if (_dragging)
+            {
+                Location = new Point(Location.X + e.X - _dragStart.X, Location.Y + e.Y - _dragStart.Y);
+            }
+        }
+
+        private void OverlayForm_MouseUp(object? sender, MouseEventArgs e)
+        {
+            _dragging = false;
         }
     }
 }

@@ -1,18 +1,29 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31912.275
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicMuteOverlay", "MicMuteOverlay\MicMuteOverlay.csproj", "{8B6E9878-44A8-4EAF-8F55-C2C76B14D93D}"
-EndProject
-Global
-GlobalSection(SolutionConfigurationPlatforms) = preSolution
-Debug|Any CPU = Debug|Any CPU
-Release|Any CPU = Release|Any CPU
-EndGlobalSection
-GlobalSection(ProjectConfigurationPlatforms) = postSolution
-{8B6E9878-44A8-4EAF-8F55-C2C76B14D93D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-{8B6E9878-44A8-4EAF-8F55-C2C76B14D93D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-{8B6E9878-44A8-4EAF-8F55-C2C76B14D93D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-{8B6E9878-44A8-4EAF-8F55-C2C76B14D93D}.Release|Any CPU.Build.0 = Release|Any CPU
-EndGlobalSection
-EndGlobal
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="mic_overlay_icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="mic_overlay_icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="..\config.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="..\Sounds\**\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>
