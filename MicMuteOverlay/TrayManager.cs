@@ -13,12 +13,14 @@ namespace MicMuteOverlay
         private readonly Config _config;
         private readonly HotkeyManager _hotkeyManager;
         private readonly OverlayForm _overlay;
+        private readonly MicController _micController;
 
-        public TrayManager(Config config, HotkeyManager hotkeyManager, OverlayForm overlay)
+        public TrayManager(Config config, HotkeyManager hotkeyManager, OverlayForm overlay, MicController micController)
         {
             _config = config;
             _hotkeyManager = hotkeyManager;
             _overlay = overlay;
+            _micController = micController;
 
             _notifyIcon = new NotifyIcon
             {
@@ -80,7 +82,7 @@ namespace MicMuteOverlay
 
         private void ShowSettings()
         {
-            var settingsForm = new Forms.SettingsForm(_config, _hotkeyManager, _overlay);
+            var settingsForm = new Forms.SettingsForm(_config, _hotkeyManager, _overlay, _micController);
             settingsForm.Show();
             settingsForm.Activate();
         }

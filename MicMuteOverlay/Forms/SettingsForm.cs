@@ -15,15 +15,18 @@ namespace MicMuteOverlay.Forms
         private readonly TextBox _unmuteBox;
         private readonly NumericUpDown _fontSize;
         private readonly TextBox _colorBox;
+        private readonly ComboBox _microphoneBox;
+        private readonly MicController _micController;
 
-        public SettingsForm(Config config, HotkeyManager hotkeyManager, OverlayForm overlay)
+        public SettingsForm(Config config, HotkeyManager hotkeyManager, OverlayForm overlay, MicController micController)
         {
             _config = config;
             _hotkeyManager = hotkeyManager;
             _overlay = overlay;
+            _micController = micController;
 
             Text = "Settings";
-            Size = new Size(350, 260);
+            Size = new Size(350, 320);
 
             var hotkeyLabel = new Label { Text = "Hotkey:", Location = new Point(10, 10) };
             _hotkeyBox = new TextBox { Text = config.Hotkey, Location = new Point(120, 10), Width = 200 };
@@ -43,7 +46,11 @@ namespace MicMuteOverlay.Forms
             var colorLabel = new Label { Text = "Text Color:", Location = new Point(10, 160) };
             _colorBox = new TextBox { Text = config.ForeColor, Location = new Point(120, 160), Width = 100 };
 
-            var save = new Button { Text = "Save & Close", Location = new Point(10, 190), Width = 310 };
+            var micLabel = new Label { Text = "Microphone:", Location = new Point(10, 190) };
+            _microphoneBox = new ComboBox { Location = new Point(120, 190), Width = 200, DropDownStyle = ComboBoxStyle.DropDownList };
+            LoadMicrophones(config.SelectedMicrophoneId);
+
+            var save = new Button { Text = "Save & Close", Location = new Point(10, 220), Width = 310 };
             save.Click += Save_Click;
 
             Controls.Add(hotkeyLabel);
@@ -58,7 +65,39 @@ namespace MicMuteOverlay.Forms
             Controls.Add(_fontSize);
             Controls.Add(colorLabel);
             Controls.Add(_colorBox);
+            Controls.Add(micLabel);
+            Controls.Add(_microphoneBox);
             Controls.Add(save);
+        }
+
+        private void LoadMicrophones(string selectedId)
+        {
+            _microphoneBox.Items.Clear();
+            var microphones = _micController.GetAvailableMicrophones();
+
+            foreach (var mic in microphones)
+            {
+                _microphoneBox.Items.Add(mic);
+            }
+
+            // Select the currently configured microphone
+            if (!string.IsNullOrEmpty(selectedId))
+            {
+                for (int i = 0; i < _microphoneBox.Items.Count; i++)
+                {
+                    if (((MicrophoneInfo)_microphoneBox.Items[i]).Id == selectedId)
+                    {
+                        _microphoneBox.SelectedIndex = i;
+                        break;
+                    }
+                }
+            }
+
+            // If nothing selected, select the default
+            if (_microphoneBox.SelectedIndex == -1 && _microphoneBox.Items.Count > 0)
+            {
+                _microphoneBox.SelectedIndex = 0;
+            }
         }
 
         private void Save_Click(object? sender, EventArgs e)
@@ -70,10 +109,17 @@ namespace MicMuteOverlay.Forms
             _config.FontSize = (int)_fontSize.Value;
             _config.ForeColor = _colorBox.Text;
 
+            // Save selected microphone
+            if (_microphoneBox.SelectedItem is MicrophoneInfo selectedMic)
+            {
+                _config.SelectedMicrophoneId = selectedMic.Id;
+                _micController.SetMicrophone(selectedMic.Id);
+            }
+
             _hotkeyManager.UpdateHotkey(_config.Hotkey);
             _config.Save();
             _overlay.ReloadConfig();
-            Close(); // 👈 this is what was probably missing
+            Close();
         }
     }
 }

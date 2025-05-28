@@ -16,13 +16,13 @@ namespace MicMuteOverlay
             Application.SetCompatibleTextRenderingDefault(false);
 
             var config = Config.Load();
-            using var controller = new MicController();
+            using var controller = new MicController(config.SelectedMicrophoneId);
             Hotkeys = new HotkeyManager(config.Hotkey);
 
             var overlay = new OverlayForm(controller, config);
 
             // Create tray manager
-            using var trayManager = new TrayManager(config, Hotkeys, overlay);
+            using var trayManager = new TrayManager(config, Hotkeys, overlay, controller);
 
             Hotkeys.HotkeyPressed += (s, e) =>
             {

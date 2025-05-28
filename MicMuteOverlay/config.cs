@@ -11,6 +11,7 @@ namespace MicMuteOverlay
         public string UnmuteSound { get; set; } = "Sounds/unmute.wav";
         public int FontSize { get; set; } = 20;
         public string ForeColor { get; set; } = "Red";
+        public string SelectedMicrophoneId { get; set; } = "";
 
         private const string ConfigPath = "config.json";
 

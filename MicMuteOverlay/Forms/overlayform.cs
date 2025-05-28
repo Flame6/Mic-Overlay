@@ -39,7 +39,7 @@ namespace MicMuteOverlay.Forms
 
             var menu = new ContextMenuStrip();
             var settingsItem = new ToolStripMenuItem("Settings");
-            settingsItem.Click += (s, e) => new SettingsForm(_config, Program.Hotkeys!, this).Show();
+            settingsItem.Click += (s, e) => new SettingsForm(_config, Program.Hotkeys!, this, _controller).Show();
             menu.Items.Add(settingsItem);
 
             var exitItem = new ToolStripMenuItem("Exit");
