@@ -7,6 +7,7 @@ namespace MicMuteOverlay
     static class Program
     {
         public static HotkeyManager? Hotkeys { get; private set; }
+
         [STAThread]
         static void Main()
         {
@@ -20,13 +21,21 @@ namespace MicMuteOverlay
 
             var overlay = new OverlayForm(controller, config);
 
-Hotkeys.HotkeyPressed += (s, e) =>
-{
-    controller.ToggleMute();
-    overlay.UpdateStatus(controller.IsMuted);
-};
+            // Create tray manager
+            using var trayManager = new TrayManager(config, Hotkeys, overlay);
+
+            Hotkeys.HotkeyPressed += (s, e) =>
+            {
+                controller.ToggleMute();
+                overlay.UpdateStatus(controller.IsMuted);
+            };
+
+            // Hide the overlay from taskbar since we now have a tray icon
+            overlay.WindowState = FormWindowState.Normal;
+            overlay.ShowInTaskbar = false;
 
             Application.Run(overlay);
+
             config.Save();
             Hotkeys.Dispose();
         }

@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="mic_overlay_icon.ico" />
+    <None Remove="icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="mic_overlay_icon.ico" />
+    <EmbeddedResource Include="icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
