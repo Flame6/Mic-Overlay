@@ -1,0 +1,15 @@
+{
+  "Hotkey": "Ctrl+Shift+M",
+  "OverlayText": "Mic Muted",
+  "MuteSound": "Sounds/mute.wav",
+  "UnmuteSound": "Sounds/unmute.wav",
+  "FontSize": 28,
+  "ForeColor": "Red",
+  "SelectedMicrophoneId": "",
+  "StartWithWindows": false,
+  "OutlineColor": "Black",
+  "OutlineThickness": 2,
+  "DisplayMode": 0,
+  "ClickThroughMode": false,
+  "TopMostRefreshMs": 2500
+}
