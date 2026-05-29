@@ -150,22 +150,3 @@ pub fn vk_to_name(vk: u16) -> Option<String> {
     }
     None
 }
-
-/// True if the virtual key is any modifier key.
-pub fn is_modifier_vk(vk: u16) -> bool {
-    let key = VIRTUAL_KEY(vk);
-    matches!(
-        key,
-        VK_LCONTROL
-            | VK_RCONTROL
-            | VK_CONTROL
-            | VK_LMENU
-            | VK_RMENU
-            | VK_MENU
-            | VK_LSHIFT
-            | VK_RSHIFT
-            | VK_SHIFT
-            | VK_LWIN
-            | VK_RWIN
-    )
-}

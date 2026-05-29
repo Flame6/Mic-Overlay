@@ -1,13 +1,8 @@
-use windows::core::{PCWSTR, PWSTR};
+use windows::core::PWSTR;
 
 /// Convert a Rust string into a NUL-terminated UTF-16 buffer.
 pub fn wide(s: &str) -> Vec<u16> {
     s.encode_utf16().chain(std::iter::once(0)).collect()
-}
-
-/// Build a `PCWSTR` from an owned wide buffer. The buffer must outlive the pointer.
-pub fn pcwstr(buf: &[u16]) -> PCWSTR {
-    PCWSTR(buf.as_ptr())
 }
 
 /// Read a wide, NUL-terminated string starting at `ptr` into a Rust `String`.
