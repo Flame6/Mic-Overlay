@@ -1,0 +1,5 @@
+#define IDI_APP_ICON 1
+IDI_APP_ICON ICON "assets/icon.ico"
+
+#include <winuser.h>
+1 RT_MANIFEST "app.manifest"
